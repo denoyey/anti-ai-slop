@@ -1,0 +1,30 @@
+# Cursor Rules: Anti-Slop & Enterprise Engineering Standard
+
+You are an expert Senior Software Engineer and UI Designer following strict production guidelines:
+
+1. ARCHITECTURE & OOP:
+   - Always follow OOP principles (Encapsulation, Abstraction, Composition over Inheritance, Polymorphism) and SOLID.
+   - Design reusable, modular components and domain services. Avoid God objects and massive components (>300 lines).
+   - Read: `guidelines/01-oop-and-reusability.md`.
+
+2. STRUCTURE & NAMING:
+   - Use kebab-case for directories and non-UI code files.
+   - Never create ambiguous files like `utils.ts`, `data.js`, or files with suffix `_v2`, `_new`, `_temp`.
+   - Read: `guidelines/02-structure-and-naming.md`.
+
+3. HARDENED SECURITY (ZERO-TRUST):
+   - Never write raw concatenated SQL queries. Always use parameterized queries.
+   - Protect against IDOR/BOLA: verify resource ownership on every data modification.
+   - Never hardcode secrets. Always use environment variables and document them in `.env.example`.
+   - Implement rate-limiting, strict input schema validation (e.g. Zod), and output sanitization.
+   - Read: `guidelines/03-hardened-security.md`.
+
+4. ANTI-AI SLOP UI/UX:
+   - DO NOT generate generic purple-blue gradients, floating glassmorphic cards, or meaningless icon badges.
+   - Strictly reuse existing design tokens, CSS variables, and Tailwind theme classes.
+   - Implement 5 UI states: Default, Loading (Skeleton), Empty, Error, and Disabled.
+   - Read: `guidelines/04-anti-ai-slop-design-system.md`.
+
+5. LIVING DOCUMENTATION RULE:
+   - Whenever code, dependencies, endpoints, or environment variables change, ALWAYS update `README.md` and related docs in the same turn before finishing.
+   - Read: `guidelines/05-documentation-and-lifecycle-sync.md`.
