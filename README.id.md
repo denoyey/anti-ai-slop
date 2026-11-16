@@ -64,8 +64,8 @@ Klik tautan di bawah ini untuk membaca spesifikasi teknis lengkapnya:
 ### 3. [Hardened Security & Anti-Bypass Standard](guidelines/id/03-hardened-security.md)
 *Menegakkan Zero-Trust: 100% parameterized query, validasi kepemilikan resource (IDOR/BOLA) di backend, rate limiting, dan nol rahasia di git.*
 
-### 4. [Human-Crafted UI & Anti-AI Slop Design System](guidelines/id/04-anti-ai-slop-design-system.md)
-*Melarang desain klise AI (gradien ungu neon, glassmorphism buram). Menegakkan design token, skala 8-pt grid, dan 5 state UI wajib (Default, Skeleton, Empty, Error, Disabled).*
+### 4. [Human-Crafted UI, Anti-AI Slop & Responsif Universal](guidelines/id/04-anti-ai-slop-design-system.md)
+*Melarang desain klise AI (gradien ungu neon, glassmorphism buram). Menegakkan design token, skala 8-pt grid, 5 state UI wajib, dan responsif 100% dari iPhone terkecil (320px) hingga layar 4K ultra-wide, dengan kepatuhan penuh iOS Safe Area (`env()`) & dynamic viewport height (`100dvh`).*
 
 ### 5. [Living Documentation & Project Sync Standard](guidelines/id/05-documentation-and-lifecycle-sync.md)
 *Aturan Emas: Kode dan dokumentasi adalah satu kesatuan. Setiap perubahan env, dependensi, atau endpoint WAJIB memperbarui `README.md` dan `.env.example` di giliran yang sama.*

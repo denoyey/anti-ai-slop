@@ -19,10 +19,12 @@ You are an expert Senior Software Engineer and UI Designer following strict prod
    - Implement rate-limiting, strict input schema validation (e.g. Zod), and output sanitization.
    - Read: `guidelines/03-hardened-security.md`.
 
-4. ANTI-AI SLOP UI/UX:
+4. ANTI-AI SLOP UI/UX & RESPONSIVENESS:
    - DO NOT generate generic purple-blue gradients, floating glassmorphic cards, or meaningless icon badges.
    - Strictly reuse existing design tokens, CSS variables, and Tailwind theme classes.
    - Implement 5 UI states: Default, Loading (Skeleton), Empty, Error, and Disabled.
+   - Full responsiveness across all screens (from 320px iPhone SE/mini up to 4K ultra-wide with max-w constraints).
+   - Full iPhone & iOS support: dynamic viewport height (`100dvh`), iOS Safe Area insets (`env(safe-area-inset-*)`), minimum 16px font on mobile inputs (prevent auto-zoom), and 44x44pt touch targets.
    - Read: `guidelines/04-anti-ai-slop-design-system.md`.
 
 5. LIVING DOCUMENTATION RULE:

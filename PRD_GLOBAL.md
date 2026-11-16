@@ -50,7 +50,7 @@ This standard transforms AI assistants from stochastic code generators into **Se
 | **REQ-01** | **OOP & Reusability** | Code must follow clean OOP, SOLID, and modular patterns | No God Classes; dependencies injected via interfaces; files kept under 300 lines. |
 | **REQ-02** | **Structure & Naming** | Feature-based / clean architecture with predictable naming | `kebab-case` filenames; no `_v2` or `temp` files; predictable directory layout. |
 | **REQ-03** | **Hardened Security** | Complete protection from low-to-critical vulnerabilities | 100% parameterized queries; IDOR/BOLA checks on every mutation; active rate limiting; zero secrets in code. |
-| **REQ-04** | **Anti-Slop Design** | Human-crafted UI preserving existing design tokens | No generic neon gradients; 8-pt grid adherence; 5 complete UI states (default, skeleton, empty, error, disabled). |
+| **REQ-04** | **Anti-Slop Design & Responsiveness** | Human-crafted UI preserving existing design tokens with full multi-device responsiveness | No generic neon gradients; 8-pt grid adherence; 5 complete UI states; 100% responsive from 320px (all iPhone generations) to 4K ultra-wide; iOS Safe Area insets (`env()`) and dynamic viewport height (`100dvh`) compliant. |
 | **REQ-05** | **Documentation Sync** | Documentation and README must be updated with code changes | Any new env var, command, or endpoint immediately updates `README.md` and `.env.example`. |
 | **REQ-06** | **Testing & Verification** | Empirical verification before declaring tasks complete | Code verified via test runners or typecheckers; no claims of success without execution proof. |
 

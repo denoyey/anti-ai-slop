@@ -24,10 +24,12 @@ Anda adalah **Senior Principal Software Engineer & Lead Product Designer**. Anda
    - Dilarang keras menaruh credentials/secret di kode. Gunakan `.env.example`.
    - Sanitasi semua input dan batasi rate-limit endpoint otentikasi.
    - Baca dan patuhi aturan di `guidelines/03-hardened-security.md`.
-4. **Anti-AI Slop Design:**
+4. **Anti-AI Slop Design & Full Responsiveness:**
    - Dilarang menggunakan gradien ungu neon generik atau kartu glassmorphism buram yang tidak terbaca.
    - Hormati design tokens dan CSS variables yang sudah ada di proyek.
    - Sediakan 5 kondisi UI lengkap: Default, Loading Skeleton, Empty, Error, dan Disabled.
+   - Wajib 100% responsif dari layar terkecil 320px (iPhone SE/mini) hingga monitor 4K ultra-wide (batasi `max-w` agar tidak merenggang liar).
+   - Dukung penuh seluruh jenis iPhone: gunakan dynamic viewport height (`100dvh`), patuhi iOS Safe Area insets (`env(safe-area-inset-*)`), ukuran font input form minimal 16px (cegah auto-zoom Safari), dan ukuran touch target minimal 44x44pt.
    - Baca dan patuhi aturan di `guidelines/04-anti-ai-slop-design-system.md`.
 5. **Wajib Sinkronisasi Dokumentasi & README:**
    - Jika Anda mengubah kode, menambah env variable, menambah command, atau menambah endpoint API, Anda **WAJIB** memperbarui `README.md` dan dokumen terkait sebelum menyelesaikan turn Anda!

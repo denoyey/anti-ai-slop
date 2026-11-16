@@ -4,7 +4,7 @@
 
 ---
 
-This document establishes strict rules to eliminate **"AI Slop"**—generic, unreadable, and bot-generated UI patterns. All user interfaces, layouts, components, and styles in this project **must remain consistent, align with existing design tokens, and feel authentically human-crafted**.
+This document establishes strict rules to eliminate **"AI Slop"**—generic, unreadable, and bot-generated UI patterns. All user interfaces, layouts, components, and styles in this project **must remain consistent, align with existing design tokens, feel authentically human-crafted, and deliver 100% responsive support across all devices (from the smallest iPhone to ultra-wide 4K desktop screens)**.
 
 ---
 
@@ -35,7 +35,7 @@ AI coding assistants often exhibit biases toward tired, unrealistic design trope
      - **Body Text:** 14px–16px with `line-height: 1.5 - 1.6` for optimal readability.
      - **Caption / Label:** 12px–13px for metadata, maintaining WCAG AA contrast.
 3. **Ergonomics & Accessibility (WCAG AA):**
-   - Minimum interactive touch targets of **44x44px** on mobile devices.
+   - Minimum interactive touch targets of **44x44pt** across touchscreens.
    - Visible keyboard navigation indicators (`focus-visible` rings).
    - Minimum text contrast ratio of **4.5:1** against backgrounds.
 
@@ -53,23 +53,62 @@ Real-world applications require complete state management. AI assistants **MUST*
 
 ---
 
-## 4. Human-Crafted Aesthetic Principles
+## 4. Universal Responsive Matrix (From Smallest Mobile to 4K Ultra-Wide)
 
-- **Subtlety over Loudness:** Modern polish comes from restrained details: crisp 1px neutral borders (`border-slate-200 dark:border-slate-800`), layered subtle drop shadows, and uniform border-radii across components.
-- **Natural Micro-Interactions:**
-  - Snappy, purposeful transitions (`transition-colors duration-150 ease-out`).
-  - Animations must never impede user task completion (keep durations under 200ms).
-- **Responsive by Design:**
-  - Zero accidental horizontal scroll on mobile viewports.
-  - Test responsive behaviors for tables and complex grids (collapsing to cards or intentional scrolling containers).
+Interfaces must be meticulously tested and responsive across the entire device spectrum:
+
+| Device Category | Viewport Width | Typical Hardware Target | Layout Strategy |
+| :--- | :--- | :--- | :--- |
+| **Extra Small (Compact Mobile)** | `320px – 375px` | iPhone SE (1st–3rd Gen), iPhone 12/13 mini | Single column, tight padding (`px-3`), collapse secondary actions into sheets/menus |
+| **Standard Mobile** | `390px – 430px` | iPhone 12/13/14/15/16, Pro & Pro Max, Android flagships | Fluid container, full touch targets (44pt+), bottom navigation |
+| **Tablet Portrait** | `768px – 834px` | iPad mini, iPad 10.9", iPad Air/Pro 11" | 2-column grids, split views, elevated sheets |
+| **Tablet Landscape / Small Laptop**| `1024px – 1280px`| iPad Pro 12.9", MacBook Air 13", compact ultrabooks | Collapsible side navigation, 3-column dashboard grids |
+| **Standard Desktop** | `1440px – 1920px`| 1080p monitors, MacBook Pro 16", iMac 24" | Full multi-column dashboard, persistent sidebars |
+| **Ultra-Wide & 4K Displays** | `2560px – 3840px+`| 27"-32" 4K displays, 21:9 / 32:9 ultra-wides | **Enforce max-width constraint** (`max-w-7xl` / `1280px–1440px`) to prevent text lines from stretching excessively |
 
 ---
 
-## 5. Pre-Completion UI Checklist
+## 5. Full iPhone & iOS Ecosystem Ergonomics (Apple HIG Compliance)
+
+When designing web or mobile views, AI assistants must strictly respect iOS-specific constraints:
+
+1. **Dynamic Viewport Heights (`dvh`):**
+   - ❌ **DILARANG:** Using `height: 100vh` on full-screen containers (causes bottom controls to be hidden behind the Safari floating URL bar).
+   - ✅ **MANDATORY:** Use `min-h-screen min-h-dvh` or `height: 100dvh` so containers adapt fluidly when Safari's address bar collapses or expands.
+2. **Safe Area Insets (Notch & Dynamic Island & Home Bar):**
+   - Fixed/sticky navigation headers, bottom tab bars, floating action buttons (FAB), and modals **MUST** respect Apple Safe Area Insets:
+     ```css
+     padding-top: env(safe-area-inset-top);       /* Notch / Dynamic Island */
+     padding-bottom: env(safe-area-inset-bottom); /* Home Indicator bar */
+     padding-left: env(safe-area-inset-left);
+     padding-right: env(safe-area-inset-right);
+     ```
+   - In Tailwind CSS projects, use utility classes like `pt-safe`, `pb-safe`, or custom CSS variables with `env()`.
+3. **Prevent Form Auto-Zooming on iOS Safari:**
+   - ❌ iOS Safari automatically zooms in on any `<input>`, `<select>`, or `<textarea>` whose computed `font-size` is smaller than `16px`, breaking user layouts.
+   - ✅ Form inputs on mobile viewports **MUST have a minimum font-size of 16px** (`text-base` in Tailwind).
+4. **Native-Like Touch & Momentum Scrolling:**
+   - Enable hardware-accelerated momentum scrolling on overflow containers:
+     ```css
+     -webkit-overflow-scrolling: touch;
+     overflow-y: auto;
+     ```
+   - Remove annoying gray tap highlight overlays:
+     ```css
+     -webkit-tap-highlight-color: transparent;
+     ```
+5. **Touch Targets (Apple HIG 44x44pt Rule):**
+   - Every tappable element (buttons, hamburger icons, tabs, dropdown items) must have an active hit area of at least **44x44pt**, even if the visual icon inside is smaller.
+
+---
+
+## 6. Pre-Completion UI Checklist
 
 - [ ] Does styling 100% respect existing theme tokens and CSS variables?
 - [ ] Is the design free of purple-blue neon gradients and generic glassmorphism?
 - [ ] Do all spacing and padding values follow the 8-point grid scale?
 - [ ] Are Loading (skeleton), Empty, and Error states fully implemented?
+- [ ] **Full Responsive Check:** Tested on 320px (iPhone SE) up to 4K ultra-wide (max-width container enforced)?
+- [ ] **iPhone & iOS Check:** Uses `100dvh`? Uses `env(safe-area-inset-*)` on fixed bars? Form inputs >= 16px? Touch targets >= 44x44pt?
 - [ ] Is copywriting concise, natural, and free of AI marketing fluff?
 - [ ] Have accessibility contrast and keyboard focus indicators been verified?

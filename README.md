@@ -64,8 +64,8 @@ Click each link below to read the comprehensive technical specifications:
 ### 3. [Hardened Security & Anti-Bypass Standard](guidelines/03-hardened-security.md)
 *Enforces Zero-Trust: 100% parameterized queries, mandatory server-side IDOR/BOLA ownership validation, rate limiting, and zero credentials in git.*
 
-### 4. [Human-Crafted UI & Anti-AI Slop Design System](guidelines/04-anti-ai-slop-design-system.md)
-*Bans generic AI clichés (purple neon gradients, unreadable glassmorphism). Enforces strict design tokens, 8-pt spacing, and 5 mandatory UI states (Default, Skeleton, Empty, Error, Disabled).*
+### 4. [Human-Crafted UI, Anti-AI Slop & Universal Responsiveness](guidelines/04-anti-ai-slop-design-system.md)
+*Bans generic AI clichés (purple neon gradients, unreadable glassmorphism). Enforces strict design tokens, 8-pt spacing, 5 mandatory UI states, and 100% responsiveness from the smallest iPhone (320px) to 4K ultra-wide monitors with native iOS Safe Area (`env()`) & dynamic viewport (`100dvh`) compliance.*
 
 ### 5. [Living Documentation & Project Sync Standard](guidelines/05-documentation-and-lifecycle-sync.md)
 *Golden Rule: Code and documentation are inseparable. Any change to dependencies, environment variables, or endpoints MUST update `README.md` and `.env.example` in the same turn.*

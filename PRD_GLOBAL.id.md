@@ -50,7 +50,7 @@ Standar ini mengonversi AI dari sekadar "code generator acak" menjadi **Senior S
 | **REQ-01** | **OOP & Reusability** | Kode harus berbasis objek bersih, mematuhi SOLID, dan reusable | Tidak ada God Class; dependensi diinjeksikan via interface/DI; komponen modular. |
 | **REQ-02** | **Structure & Naming** | Struktur folder feature-based/clean architecture dengan penamaan konsisten | Nama file `kebab-case`, tidak ada file `_v2` atau `temp`, letak file terprediksi. |
 | **REQ-03** | **Hardened Security** | Perlindungan penuh dari kerentanan low-high & lama-baru | Query parameterized 100%; verifikasi IDOR/BOLA di setiap endpoint; rate-limiting aktif; sanitasi input ketat; zero hardcoded secrets. |
-| **REQ-04** | **Anti-Slop Design** | Desain visual selaras dengan token proyek, human-crafted | Tidak ada gradien ungu neon atau glassmorphism klise; skala 8-pt grid; 5 state UI lengkap (default, loading skeleton, empty, error, disabled). |
+| **REQ-04** | **Anti-Slop Design & Responsif** | Desain human-crafted selaras token dengan dukungan responsif penuh multi-perangkat | Bebas gradien neon; skala 8-pt grid; 5 state UI lengkap; 100% responsif dari 320px (semua seri iPhone) hingga monitor 4K ultra-wide; patuh iOS Safe Area insets (`env()`) dan dynamic viewport height (`100dvh`). |
 | **REQ-05** | **Documentation Sync** | Dokumentasi dan README wajib diperbarui bersamaan dengan perubahan kode | Setiap ada env baru, command baru, atau endpoint baru, file `README.md` dan `.env.example` langsung diupdate sebelum tugas selesai. |
 | **REQ-06** | **Testing & Verification** | Verifikasi nyata sebelum menyatakan pekerjaan selesai | Kode diuji dengan test runner atau linter; tidak ada klaim sukses tanpa bukti eksekusi. |
 
