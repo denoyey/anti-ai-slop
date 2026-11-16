@@ -10,28 +10,68 @@
 
 ---
 
-## 📌 Mengapa Repositori Ini Dibuat?
+## 💡 Apa Ini Sebenarnya? (Penjelasan 30 Detik)
 
-Model AI sering kali menghasilkan apa yang disebut **"AI Slop"**:
-- Kode prosedural acak (*spaghetti code*) tanpa paradigma OOP yang benar.
-- Kode yang sulit di-maintain dengan penamaan file acak (`test_new2.js`, `utils_v2.py`).
-- Celah keamanan fatal: tidak ada pengecekan IDOR/BOLA, query SQL tanpa parameterisasi, secret bocor di kode, dan tanpa rate-limiting.
-- Desain visual murahan: gradien neon ungu-biru klise, efek blur kaca tak terbaca, dan tombol tanpa handling *loading/empty/error states*.
-- Dokumentasi dan `README.md` yang basi karena AI mengubah kode tanpa pernah memperbarui dokumentasinya.
+Ini **BUKAN** package `npm` atau library kode yang perlu di-install.
 
-Repositori ini hadir sebagai **rulebook dan pagar pengaman (*guardrails*) produksi** agar semua AI asisten bekerja dengan standar **Senior Principal Software Engineer & Lead Human Designer**.
+Ini adalah **rulebook dan konfigurasi pagar pengaman (*guardrails*) siap pakai** yang cukup Anda salin ke dalam repositori proyek Anda. Begitu file-file aturan ini berada di proyek Anda, asisten AI (Cursor, Claude Code, Antigravity, Copilot, Windsurf) akan otomatis membacanya dan bertindak sebagai **Senior Principal Software Engineer & Lead Product Designer**—menghilangkan kode rapuh, celah keamanan fatal, dan desain klise "AI Slop".
+
+| Aspek | ❌ Tanpa Standar Ini (AI Slop Biasa) | ✅ Dengan Standar Ini (Karya Manusiawi) |
+| :--- | :--- | :--- |
+| **Arsitektur Kode** | File monolitik 600 baris, procedural spaghetti | OOP bersih, SOLID, modul domain terisolasi (<300 baris) |
+| **Keamanan** | String query SQL langsung, tanpa cek IDOR, secret bocor | 100% parameterized query, validasi zero-trust di backend |
+| **Desain UI/UX** | Gradien ungu neon klise, kartu glassmorphism buram | 8-pt grid terukur, mematuhi design token, 5 state UI lengkap |
+| **Dokumentasi** | README basi, `.env.example` hilang, API tak terdokumentasi | README dan env tersinkronisasi otomatis di setiap perubahan |
+| **Keandalan** | Menelan error (`catch {}` kosong), klaim sukses palsu | Custom domain exception, structured logging, uji test nyata |
 
 ---
 
-## ⚡ Quick Start / Clone
+## ⚡ Cara Menggunakan di Proyek Anda (Pilih AI Tool Anda)
 
-Untuk mengadopsi standar ini ke dalam workflow atau proyek Anda:
+Anda tidak perlu merombak proyek Anda. Cukup salin file yang sesuai dengan AI asisten yang Anda gunakan ke root proyek Anda:
 
-```bash
-git clone https://github.com/denoyey/anti-ai-slop.git
-```
+### 1. Cursor IDE (`.cursorrules`)
+1. Salin file [`.cursorrules`](.cursorrules) ke root proyek Anda.
+2. Salin folder [`guidelines/`](guidelines/) ke root proyek Anda.
+3. *Selesai!* Cursor akan otomatis mematuhi aturan ini setiap kali melakukan generate kode.
 
-Atau salin file konfigurasi yang relevan (`.antigravity/`, `.cursorrules`, `CLAUDE.md`, `AGENTS.md`) beserta folder `guidelines/` ke repositori proyek Anda.
+### 2. Google Antigravity
+1. Salin folder [`.antigravity/rules/`](.antigravity/rules/) ke workspace Anda.
+2. Salin folder [`guidelines/`](guidelines/) ke workspace Anda.
+3. *Selesai!* Antigravity akan membaca dan menegakkan aturan ini pada background task dan subagent.
+
+### 3. Claude Code CLI (`CLAUDE.md`)
+1. Salin file [`CLAUDE.md`](CLAUDE.md) ke root proyek Anda.
+2. Salin folder [`guidelines/`](guidelines/) ke root proyek Anda.
+3. *Selesai!* Claude Code CLI otomatis membaca `CLAUDE.md` saat sesi dimulai.
+
+### 4. Agen AI Universal (Windsurf, Copilot, ChatGPT, dll.)
+1. Salin file [`AGENTS.md`](AGENTS.md) ke root proyek Anda.
+2. Sebut `@AGENTS.md` pada prompt atau pengaturan sistem Anda.
+
+---
+
+## 🚀 6 Pilar Utama Standar Ini
+
+Klik tautan di bawah ini untuk membaca spesifikasi teknis lengkapnya:
+
+### 1. [Clean OOP & Reusable Architecture](guidelines/id/01-oop-and-reusability.md)
+*Menegakkan 4 pilar OOP, prinsip SOLID, Dependency Injection, dan batas maksimal 300 baris per file untuk mencegah God Object.*
+
+### 2. [Predictable Directory & Naming Standard](guidelines/id/02-structure-and-naming.md)
+*Menyeragamkan penamaan `kebab-case`, melarang sufiks ambigu (`_v2`, `_temp`, `test2`), dan menyediakan arsitektur Feature-Based & Clean Architecture.*
+
+### 3. [Hardened Security & Anti-Bypass Standard](guidelines/id/03-hardened-security.md)
+*Menegakkan Zero-Trust: 100% parameterized query, validasi kepemilikan resource (IDOR/BOLA) di backend, rate limiting, dan nol rahasia di git.*
+
+### 4. [Human-Crafted UI & Anti-AI Slop Design System](guidelines/id/04-anti-ai-slop-design-system.md)
+*Melarang desain klise AI (gradien ungu neon, glassmorphism buram). Menegakkan design token, skala 8-pt grid, dan 5 state UI wajib (Default, Skeleton, Empty, Error, Disabled).*
+
+### 5. [Living Documentation & Project Sync Standard](guidelines/id/05-documentation-and-lifecycle-sync.md)
+*Aturan Emas: Kode dan dokumentasi adalah satu kesatuan. Setiap perubahan env, dependensi, atau endpoint WAJIB memperbarui `README.md` dan `.env.example` di giliran yang sama.*
+
+### 6. [Error Handling, Logging, and Verification Standard](guidelines/id/06-error-handling-and-testing.md)
+*Melarang blok `catch {}` kosong, menerapkan JSON structured logging dengan sensor data sensitif (PII), dan mewajibkan verifikasi nyata via test runner / linter.*
 
 ---
 
@@ -39,84 +79,53 @@ Atau salin file konfigurasi yang relevan (`.antigravity/`, `.cursorrules`, `CLAU
 
 ```text
 .
+├── README.md                          # 🌐 Dokumentasi Utama (Bahasa Inggris)
+├── README.id.md                       # 🇮🇩 Dokumentasi Utama (Bahasa Indonesia)
+├── AGENTS.md                          # Instruksi universal untuk semua AI model
+├── CLAUDE.md                          # Konfigurasi khusus Claude Code CLI
+├── .cursorrules                       # Konfigurasi langsung untuk Cursor IDE
+├── PRD_GLOBAL.md                      # Blueprint PRD Global (Bahasa Inggris)
+├── PRD_GLOBAL.id.md                   # Blueprint PRD Global (Bahasa Indonesia)
 ├── .antigravity/
 │   └── rules/
-│       └── anti-slop.md            # Aturan otomatis untuk Google Antigravity
-├── guidelines/                     # Panduan Standar Utama (Bahasa Inggris)
-│   ├── 01-oop-and-reusability.md   # Prinsip OOP, SOLID, & reusable patterns
-│   ├── 02-structure-and-naming.md  # Konvensi penamaan & arsitektur folder
-│   ├── 03-hardened-security.md     # Keamanan berlapis (OWASP, anti-bypass)
-│   ├── 04-anti-ai-slop-design-system.md # Desain buatan manusia, no generic slop
-│   ├── 05-documentation-and-lifecycle-sync.md # Wajib sync docs & README
-│   ├── 06-error-handling-and-testing.md # Zero silent fail & testing
-│   └── id/                         # Panduan dalam Bahasa Indonesia
-├── .cursorrules                    # Konfigurasi langsung untuk Cursor IDE
-├── AGENTS.md                       # Standar instruksi universal semua agent
-├── CLAUDE.md                       # Konfigurasi khusus Claude Code CLI
-├── PRD_GLOBAL.md                   # PRD Global standar & blueprint sistem
-├── PRD_GLOBAL.id.md                # PRD Global dalam Bahasa Indonesia
-├── README.md                       # Dokumentasi utama (English)
-└── README.id.md                    # Dokumentasi utama (Bahasa Indonesia)
+│       └── anti-slop.md               # Aturan untuk Google Antigravity
+├── guidelines/                        # 🌐 Panduan Standar Utama (Bahasa Inggris)
+│   ├── 01-oop-and-reusability.md
+│   ├── 02-structure-and-naming.md
+│   ├── 03-hardened-security.md
+│   ├── 04-anti-ai-slop-design-system.md
+│   ├── 05-documentation-and-lifecycle-sync.md
+│   └── 06-error-handling-and-testing.md
+└── guidelines/id/                     # 🇮🇩 Panduan Standar (Bahasa Indonesia)
+    ├── 01-oop-and-reusability.md
+    ├── 02-structure-and-naming.md
+    ├── 03-hardened-security.md
+    ├── 04-anti-ai-slop-design-system.md
+    ├── 05-documentation-and-lifecycle-sync.md
+    └── 06-error-handling-and-testing.md
 ```
 
 ---
 
-## 🚀 6 Pilar Utama Standar Ini
+## ❓ Pertanyaan yang Sering Diajukan (FAQ)
 
-### 1. [Clean OOP & Reusable Architecture](guidelines/id/01-oop-and-reusability.md)
-- 4 Pilar OOP (Encapsulation, Abstraction, Polymorphism, Utamakan Composition daripada Inheritance).
-- Kepatuhan 100% pada prinsip **SOLID**.
-- Dilarang membuat God Object / God Class. Maksimal panjang file 300 baris.
-- Terapkan Dependency Injection (DI) dan arsitektur berbasis kontrak (Interface/DTO).
+<details>
+<summary><b>1. Apakah ini bisa dipakai untuk semua bahasa pemrograman dan framework?</b></summary>
+<br>
+<b>Bisa.</b> Prinsip Clean OOP, SOLID, Zero-Trust security, penamaan semantik, 8-pt grid UI, dan error handling bersifat universal. Standar ini berlaku sama untuk TypeScript, Python, Go, Rust, Java, PHP/Laravel, React, Next.js, Vue, dan lainnya.
+</details>
 
-### 2. [Predictable Directory & Naming Standard](guidelines/id/02-structure-and-naming.md)
-- Standar penamaan folder dan file seragam menggunakan `kebab-case`.
-- Larangan keras membuat file dengan sufiks ambigu: `_v2`, `_new`, `_backup`, `temp`.
-- Pilihan arsitektur modular yang jelas: *Feature-Based* atau *Clean Architecture*.
-- Prinsip *Co-location*: letakkan test dan style berdampingan dengan unit fiturnya.
+<details>
+<summary><b>2. Apakah ini akan menghabiskan banyak token LLM?</b></summary>
+<br>
+<b>Tidak.</b> File entrypoint (`.cursorrules`, `CLAUDE.md`, `AGENTS.md`) sangat ringkas (~30 baris) dan bertindak sebagai indeks. AI modern hanya akan membaca modul panduan detail di <code>guidelines/</code> saat mengerjakan tugas yang relevan.
+</details>
 
-### 3. [Hardened Security & Anti-Bypass](guidelines/id/03-hardened-security.md)
-- **Zero-Trust:** Validasi semua input di server menggunakan strict schema.
-- **100% Parameterized Queries:** Anti SQL/NoSQL Injection.
-- **Anti-IDOR / Anti-BOLA:** Validasi hak kepemilikan resource di setiap aksi mutating/query.
-- **Secrets Protection:** Zero credential di git; validasi startup env wajib ada.
-- **Defense in Depth:** Rate limiting di auth, secure cookie headers, anti-SSRF, magic-bytes file upload validation, mitigasi DoS.
-
-### 4. [Human-Crafted UI & Anti-AI Slop Design](guidelines/id/04-anti-ai-slop-design-system.md)
-- Dilarang menggunakan gradien ungu neon generik, glassmorphism buram, dan ikon lingkaran hiasan acak.
-- Patuh 100% pada design tokens dan skala 8-pt grid yang sudah ada dalam proyek.
-- Wajib memiliki **5 State Antarmuka Lengkap**: Default, Skeleton Loading, Empty State, Error State (dengan aksi retry), dan Disabled State.
-- Copywriting manusiawi: tidak menggunakan kalimat hiperbolis klise AI.
-
-### 5. [Living Documentation & Sync Protocol](guidelines/id/05-documentation-and-lifecycle-sync.md)
-- **Aturan Mutlak:** Kode dan dokumentasi adalah satu kesatuan.
-- Setiap kali AI mengubah environment variables, dependensi, atau endpoint API, AI **WAJIB** memperbarui file `README.md` dan `.env.example` sebelum menyelesaikan tugas.
-
-### 6. [Zero Silent Failures & Rigorous Verification](guidelines/id/06-error-handling-and-testing.md)
-- Dilarang menelan error secara diam-diam (`try {} catch {}` kosong).
-- Logging terstruktur tanpa membocorkan PII (Personally Identifiable Information).
-- Verifikasi nyata: AI harus menguji kode dengan test runner / linter sebelum menyatakan selesai.
-
----
-
-## 🛠️ Cara Menggunakan di Proyek Anda
-
-### Opsi A: Menggunakan dengan Google Antigravity
-Salin folder `.antigravity/rules/` dan folder `guidelines/` ke root workspace Anda. Antigravity akan otomatis membaca aturan ini.
-
-### Opsi B: Menggunakan dengan Cursor IDE
-Salin file `.cursorrules` dan folder `guidelines/` ke root repositori Anda.
-
-### Opsi C: Menggunakan dengan Claude Code
-Salin file `CLAUDE.md` dan folder `guidelines/` ke root repositori Anda.
-
-### Opsi D: Agen AI Universal (Windsurf, Copilot, ChatGPT, dll.)
-Gunakan file `AGENTS.md` sebagai file instruksi utama di root repositori.
-
----
-
-## 📋 [PRD Global Standar](PRD_GLOBAL.id.md)
-Gunakan `PRD_GLOBAL.id.md` sebagai blueprint sebelum memulai fitur baru untuk mencegah AI berhalusinasi atau melenceng dari spesifikasi bisnis dan keamanan.
+<details>
+<summary><b>3. Bisakah saya menyesuaikan aturan ini untuk standar tim saya sendiri?</b></summary>
+<br>
+<b>Tentu saja.</b> Fork atau clone repositori ini, sesuaikan isi file di dalam folder <code>guidelines/</code> dengan standar internal tim Anda, dan simpan sebagai template proyek Anda.
+</details>
 
 ---
 
