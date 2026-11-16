@@ -1,71 +1,75 @@
 # 04. Anti-AI Slop Design System & Human-Crafted UI Standard
 
-Dokumen ini adalah pedoman mutlak untuk mencegah **"AI Slop"** (desain murahan, klise, generik, dan tampak seperti hasil generate bot acak). Seluruh desain antarmuka, tata letak, komponen UI, dan styling dalam proyek ini **wajib konsisten, selaras dengan design token yang ada, dan terasa seperti buatan desainer & software engineer manusia profesional**.
+[English](04-anti-ai-slop-design-system.md) | [Bahasa Indonesia](id/04-anti-ai-slop-design-system.md)
 
 ---
 
-## 1. Apa Itu "AI Slop" dalam Desain UI/UX? (HAL YANG DILARANG KERAS)
+This document establishes strict rules to eliminate **"AI Slop"**—generic, unreadable, and bot-generated UI patterns. All user interfaces, layouts, components, and styles in this project **must remain consistent, align with existing design tokens, and feel authentically human-crafted**.
 
-AI coding assistant sering kali memiliki bias menghasilkan desain klise yang tidak realistis. **DILARANG KERAS** memunculkan elemen-elemen berikut:
+---
 
-| AI Slop Anti-Pattern | Mengapa Dilarang? | Solusi Manusia Profesional |
+## 1. What is "AI Slop" in UI/UX Design? (STRICTLY PROHIBITED)
+
+AI coding assistants often exhibit biases toward tired, unrealistic design tropes. **STRICTLY PROHIBITED** patterns include:
+
+| AI Slop Anti-Pattern | Why It Is Banned | Human-Crafted Solution |
 | :--- | :--- | :--- |
-| **Gradien Ungu-Biru Neon Generik** (`from-purple-600 to-blue-500` di setiap tombol/kartu) | Tampak seperti template bot crypto murahan tahun 2021 | Gunakan palet warna terkurasi dari brand system; utamakan warna solid bernuansa netral dengan aksen terukur |
-| **Glassmorphism Berlebihan** (`backdrop-blur-xl bg-white/10` di semua kartu) | Tidak terbaca (*poor contrast*), merusak performa GPU, dan tidak praktis | Gunakan surface solid atau elevated card dengan border tipis dan kontras jelas (`border-border bg-card`) |
-| **Floating Badges / Icon Berlingkar di Semua Tempat** | AI suka menaruh ikon dengan background lingkaran warna-warni di setiap baris teks tanpa makna | Gunakan ikon hanya jika memiliki fungsi affordance navigasi atau kategori fungsional nyata |
-| **Ukuran Spacing Acak & Tidak Konsisten** (misal: margin 13px, padding 27px) | Membuat layout tampak berantakan dan amatir | **Wajib patuhi skala 8-Point Grid** (4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px) |
-| **Teks Placeholder Bombastis / AI Fluff** ("Unleash boundless potential with revolutionary AI synergy") | Terdengar palsu dan membingungkan pengguna | Gunakan copywriting manusia: langsung, jelas, to-the-point, dan berorientasi pada aksi nyata pengguna |
-| **Mengabaikan Token Desain yang Sudah Ada** | AI menambahkan warna hex sembarangan atau mengubah font sesuka hati | **Wajib reuse CSS variables / Tailwind tokens** yang sudah didefinisikan dalam proyek |
+| **Generic Purple-Blue Neon Gradients** (`from-purple-600 to-blue-500` on buttons and cards) | Looks like an amateur 2021 crypto scam template | Use curated brand tokens; prioritize solid neutrals with purposeful accents |
+| **Excessive Glassmorphism** (`backdrop-blur-xl bg-white/10` everywhere) | Poor text contrast, GPU lag, unreadable on mobile | Use solid or subtly elevated surfaces with crisp 1px borders (`border-border bg-card`) |
+| **Meaningless Floating Icon Pills** (Circular icons beside every sentence) | Clutters layout with meaningless decorative noise | Use icons strictly for navigational affordance or semantic status indicators |
+| **Haphazard Spacing** (arbitrary margins like 13px, 27px) | Results in sloppy, amateur alignment | **Strictly follow the 8-Point Grid** (4px, 8px, 12px, 16px, 24px, 32px, 48px, 64px) |
+| **Hyperbolic Marketing Fluff** ("Unleash limitless potential with groundbreaking synergy") | Confuses users and feels robotic | Write clear, concise, actionable human copy focused on real user intent |
+| **Ignoring Existing Design Tokens** (Adding random hex codes or new font families) | Breaks design consistency across the product | **Reuse existing CSS variables / Tailwind tokens** defined in the project |
 
 ---
 
-## 2. Aturan Emas Keselarasan Desain (Design Consistency)
+## 2. Golden Rules of Design Consistency
 
-1. **Konsistensi Token (Never Break Existing Design Tokens):**
-   - Periksa selalu file konfigurasi tema (`tailwind.config.js`, `theme.css`, `tokens.json`).
-   - Jangan pernah menulis warna hex bebas (contoh: `#1a2b3c`) secara hardcoded di dalam komponen. Selalu gunakan semantik token (contoh: `bg-primary`, `text-muted-foreground`, `border-border`).
-2. **Tipografi Berjenjang & Bertata Krama:**
-   - Gunakan hierarki tipografi yang ketat:
-     - **Page Title / H1:** Tegas, proporsional, line-height seimbang (tidak terlalu rapat).
-     - **Section Title / H2:** Memisahkan konteks dengan jelas.
-     - **Body Text:** Ukuran font minimal 14px-16px dengan `line-height: 1.5 - 1.6` untuk kenyamanan membaca.
-     - **Label / Caption:** 12px-13px untuk metadata atau timestamp, dengan kontras yang tetap memenuhi standar WCAG AA.
-3. **Ergonomi & Skala Sentuh (Touch Targets & Accessibility):**
-   - Area klik/sentuh tombol minimal **44x44 piksel** pada perangkat mobile.
-   - Wajib memiliki indikator `focus-visible` (ring outline) untuk navigasi keyboard.
-   - Rasio kontras teks terhadap latar belakang minimal **4.5:1** (WCAG AA).
-
----
-
-## 3. Desain Harus Memiliki 5 Kondisi UI Lengkap (State Completeness)
-
-Desain buatan manusia selalu memperhitungkan kondisi nyata aplikasi di lapangan. AI **WAJIB** membuat komponen dengan 5 state lengkap, bukan hanya state "sukses":
-
-1. **Default / Resting State:** Tampilan normal saat data tersedia.
-2. **Loading State:** Menggunakan Skeleton Loader halus yang bentuknya identik dengan konten, bukan sekadar spinner berputar di tengah layar kosong.
-3. **Empty State:** Ilustrasi/ikon minimalis, pesan ramah yang menjelaskan mengapa kosong, dan tombol aksi (CTA) untuk mulai membuat data baru.
-4. **Error State:** Pesan kesalahan yang jelas, manusiawi (tanpa kode error teknis), dan tombol coba lagi (*Retry*).
-5. **Disabled State:** Visual transparan/redup yang jelas menandakan elemen tidak dapat diklik, dengan atribut `aria-disabled="true"`.
+1. **Token Adherence (Never Break Existing Design Tokens):**
+   - Always inspect `tailwind.config.js`, `theme.css`, or design token files before styling.
+   - Never hardcode arbitrary hex values (e.g., `#1a2b3c`). Use semantic tokens (e.g., `bg-primary`, `text-muted-foreground`, `border-border`).
+2. **Intentional Typography Scale:**
+   - Enforce a disciplined typographic hierarchy:
+     - **Page Title / H1:** Bold, balanced line-height.
+     - **Section Title / H2:** Clear thematic separation.
+     - **Body Text:** 14px–16px with `line-height: 1.5 - 1.6` for optimal readability.
+     - **Caption / Label:** 12px–13px for metadata, maintaining WCAG AA contrast.
+3. **Ergonomics & Accessibility (WCAG AA):**
+   - Minimum interactive touch targets of **44x44px** on mobile devices.
+   - Visible keyboard navigation indicators (`focus-visible` rings).
+   - Minimum text contrast ratio of **4.5:1** against backgrounds.
 
 ---
 
-## 4. Filosofi Visual Manusiawi (Crafted & Intentional)
+## 3. Mandatory 5 UI States (Complete State Handling)
 
-- **Subtlety over Loudness:** Keanggunan antarmuka modern terletak pada detail halus: border 1px bernuansa netral (`border-slate-200 dark:border-slate-800`), shadow lembut berlapis (*subtle multi-layer shadows*), dan radius sudut yang konsisten di semua komponen (misal: semua `rounded-lg` atau semua `rounded-md`).
-- **Micro-Interactions yang Terasa Natural:**
-  - Efek transisi halus (`transition-colors duration-150 ease-out`).
-  - Animasi tidak boleh memperlambat pengguna (durasi animasi maksimal 150ms - 200ms).
+Real-world applications require complete state management. AI assistants **MUST** implement all 5 states, never just the "happy path":
+
+1. **Default / Resting State:** Standard presentation when data is populated.
+2. **Loading State:** Smooth skeleton loaders that mirror the actual layout structure, rather than a generic centered spinner.
+3. **Empty State:** Subtle icon/illustration, clear message explaining why data is absent, and a primary CTA to create or get started.
+4. **Error State:** Human-friendly error explanation and an actionable retry mechanism.
+5. **Disabled State:** Clearly dimmed element with `aria-disabled="true"` to communicate non-interactivity.
+
+---
+
+## 4. Human-Crafted Aesthetic Principles
+
+- **Subtlety over Loudness:** Modern polish comes from restrained details: crisp 1px neutral borders (`border-slate-200 dark:border-slate-800`), layered subtle drop shadows, and uniform border-radii across components.
+- **Natural Micro-Interactions:**
+  - Snappy, purposeful transitions (`transition-colors duration-150 ease-out`).
+  - Animations must never impede user task completion (keep durations under 200ms).
 - **Responsive by Design:**
-  - Tidak boleh ada *horizontal scroll* yang tidak disengaja di layar smartphone.
-  - Periksa tata letak tabel dan grid pada layar sempit: ubah menjadi kartu atau scrollable container yang terencana.
+  - Zero accidental horizontal scroll on mobile viewports.
+  - Test responsive behaviors for tables and complex grids (collapsing to cards or intentional scrolling containers).
 
 ---
 
-## 5. Checklist Verifikasi UI Sebelum Menyelesaikan Task:
+## 5. Pre-Completion UI Checklist
 
-- [ ] Apakah styling 100% menggunakan token/variabel desain yang ada di proyek?
-- [ ] Apakah tidak ada gradien warna ungu-biru atau glassmorphism klise AI?
-- [ ] Apakah semua ukuran margin dan padding mengikuti sistem kelipatan 4px / 8px?
-- [ ] Apakah state Loading, Empty, dan Error sudah ditangani secara elegan?
-- [ ] Apakah teks/copywriting terdengar alami, manusiawi, dan bebas dari kalimat klise AI?
-- [ ] Apakah navigasi keyboard dan aksesibilitas kontras sudah terpenuhi?
+- [ ] Does styling 100% respect existing theme tokens and CSS variables?
+- [ ] Is the design free of purple-blue neon gradients and generic glassmorphism?
+- [ ] Do all spacing and padding values follow the 8-point grid scale?
+- [ ] Are Loading (skeleton), Empty, and Error states fully implemented?
+- [ ] Is copywriting concise, natural, and free of AI marketing fluff?
+- [ ] Have accessibility contrast and keyboard focus indicators been verified?

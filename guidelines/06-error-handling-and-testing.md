@@ -1,56 +1,60 @@
 # 06. Error Handling, Logging, and Verification Standard
 
-Dokumen ini melengkapi standar rekayasa perangkat lunak untuk memastikan kode yang dihasilkan AI tidak menyembunyikan bug (*silent failures*), memiliki penanganan error yang konsisten, dan teruji secara ketat.
+[English](06-error-handling-and-testing.md) | [Bahasa Indonesia](id/06-error-handling-and-testing.md)
 
 ---
 
-## 1. Aturan Penanganan Error (Zero Silent Failures)
+This document establishes engineering standards to ensure AI-generated code eliminates silent failures, handles errors consistently, and provides empirical verification.
 
-❌ **DILARANG FATAL:**
+---
+
+## 1. Error Handling Rules (Zero Silent Failures)
+
+❌ **STRICTLY FORBIDDEN:**
 ```typescript
-// DILARANG: Menelan error tanpa jejak
+// FORBIDDEN: Silently swallowing exceptions
 try {
   await processPayment();
 } catch (error) {
-  // kosong / silent pass
+  // empty / silent pass
 }
 ```
 
-### Prinsip Error Handling:
+### Core Principles:
 1. **Custom Domain Exceptions:**
-   - Gunakan kelas error khusus turunan yang memiliki kode error semantik dan status HTTP yang jelas (misal: `EntityNotFoundException`, `UnauthorizedException`, `ValidationException`).
+   - Use semantic custom exception classes with clear error codes and mapped HTTP status codes (e.g., `EntityNotFoundException`, `UnauthorizedException`, `ValidationException`).
 2. **Centralized Error Middleware:**
-   - Semua error yang tidak tertangani (*unhandled errors*) harus ditangkap oleh middleware sentral di layer terluar aplikasi.
-   - Di production, respon untuk error 500 harus aman: `{"status": "error", "message": "An unexpected error occurred"}` tanpa membocorkan trace atau query.
+   - Unhandled exceptions must be caught by a centralized error middleware at the outer layer of the application.
+   - In production, 500 error responses must remain sanitized: `{"status": "error", "message": "An unexpected error occurred"}`, never leaking raw database queries or traces.
 3. **Explicit Error Boundaries (Frontend):**
-   - Pasang React Error Boundary pada tingkat fitur/halaman agar crash pada satu komponen tidak membuat seluruh aplikasi blank putih.
+   - Place Error Boundaries at route and widget boundaries so a failure in one component does not crash the entire application.
 
 ---
 
-## 2. Standar Logging & Observability
+## 2. Structured Logging & Observability
 
 1. **Structured Logging:**
-   - Gunakan format JSON terstruktur untuk log (level: `INFO`, `WARN`, `ERROR`, timestamp, context, traceId).
-2. **Perlindungan Data Sensitif (PII Redaction):**
-   - ❌ **Dilarang mencatat:** password, token bearer, nomor kartu kredit, NIK, atau data rahasia lainnya ke dalam file log.
-   - Selalu bersihkan objek request sebelum dicetak ke logger:
+   - Format logs as structured JSON (`timestamp`, `level`, `context`, `traceId`, `message`).
+2. **PII Masking & Redaction:**
+   - ❌ **Forbidden:** Never write passwords, bearer tokens, credit card numbers, or sensitive credentials to log streams.
+   - Always sanitize request payloads before passing them to the logger:
      ```typescript
      logger.info('User login attempt', { email: sanitizeEmail(user.email) });
      ```
 
 ---
 
-## 3. Standar Pengujian & Verifikasi (Testing Standards)
+## 3. Testing & Verification Standards
 
-Setiap kode baru harus memiliki skenario pengujian:
+Every new feature or bugfix must have associated test scenarios:
 
 1. **Unit Testing:**
-   - Menguji *pure logic* dan business rules secara terisolasi tanpa menyentuh database asli (gunakan mock / fake repository).
-   - Uji skenario positif (*happy path*) DAN skenario negatif (*edge cases, boundary limits, invalid inputs*).
+   - Test pure business logic in isolation without hitting live databases (use mocks or test doubles).
+   - Test both the happy path AND edge cases (boundary limits, invalid schemas).
 2. **Integration Testing:**
-   - Uji alur antarmuka dengan database atau external adapter menggunakan container atau test database khusus.
+   - Test database queries and external adapters against containerized or test database instances.
 3. **Security Testing:**
-   - Uji upaya bypass autentikasi, input payload SQL injection, payload XSS, dan akses resource tanpa kepemilikan (IDOR test).
-4. **Verifikasi Nyata Sebelum Mengklaim Sukses:**
-   - AI wajib menjalankan runner test (`npm test`, `pytest`, `cargo test`, `go test`) atau linter/typecheck sebelum mengumumkan bahwa perbaikan selesai.
-   - Jangan pernah menyatakan "fitur telah bekerja dengan sempurna" jika belum pernah diverifikasi melalui pengujian eksekusi langsung.
+   - Test authentication bypass attempts, SQL injection payloads, XSS vectors, and unauthorized resource access (IDOR).
+4. **Empirical Verification Before Declaring Success:**
+   - AI assistants must run the relevant test runner (`npm test`, `pytest`, `cargo test`, `go test`) or linter/typecheck before claiming that a fix or feature is complete.
+   - Never assert that code "works perfectly" without empirical execution proof.

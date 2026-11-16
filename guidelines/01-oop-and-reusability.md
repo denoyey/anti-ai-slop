@@ -1,91 +1,95 @@
 # 01. Object-Oriented Programming (OOP) & Code Reusability Standard
 
-Dokumen ini adalah aturan wajib bagi semua AI coding assistant (Antigravity, Claude, Cursor, Copilot, ChatGPT, dll.) saat merancang, menulis, dan merefaktor kode dalam repositori ini.
+[English](01-oop-and-reusability.md) | [Bahasa Indonesia](id/01-oop-and-reusability.md)
 
 ---
 
-## 1. Filosofi Utama: OOP Bersih & Modular
+This document defines non-negotiable rules for all AI coding assistants (Google Antigravity, Claude Code, Cursor, Copilot, ChatGPT, etc.) when designing, writing, and refactoring code in this repository.
 
-Kode yang dihasilkan AI dilarang keras berupa *procedural spaghetti*, fungsi monolitik raksasa, atau script acak tanpa struktur objek yang jelas. Kode harus terstruktur, mudah diuji (*testable*), mudah diperluas (*extensible*), dan memiliki *domain boundary* yang tegas.
+---
 
-### 4 Pilar OOP Wajib:
-1. **Encapsulation (Enkapsulasi):**
-   - Sembunyikan *internal state*. Gunakan access modifier (`private`, `protected`) secara disiplin.
-   - Jangan pernah mengekspos mutasi variabel internal secara telanjang. Gunakan metode khusus yang memvalidasi perubahan state.
-2. **Abstraction (Abstraksi):**
-   - Pisahkan *kontrak/antarmuka* (Interface / Abstract Class) dari *implementasi konkret*.
-   - Konsumen kode harus bergantung pada kontrak antarmuka, bukan pada detail cara kerja internal.
+## 1. Core Philosophy: Clean & Modular OOP
+
+AI-generated code must NEVER consist of procedural spaghetti, monolithic giant functions, or disorganized scripts. Code must be structured, testable, extensible, and enforce strict domain boundaries.
+
+### The 4 Mandatory OOP Pillars:
+1. **Encapsulation:**
+   - Hide internal state. Strictly enforce access modifiers (`private`, `protected`).
+   - Never expose raw mutable internal variables. Use explicit methods that validate state transitions.
+2. **Abstraction:**
+   - Decouple contracts/interfaces from concrete implementations.
+   - Code consumers must depend on interface contracts, not on internal implementation details.
 3. **Inheritance vs. Composition:**
-   - **Aturan Emas:** *Favor composition over inheritance* (Utamakan komposisi daripada pewarisan).
-   - Hindari hierarki pewarisan lebih dari 2 tingkat kedalaman (`Class A -> Class B -> Class C` adalah batas maksimal).
-   - Gunakan *dependency injection* dan *delegation* untuk berbagi perilaku, bukan *subclassing* yang kaku.
-4. **Polymorphism (Polimorfisme):**
-   - Gunakan polimorfisme untuk menghilangkan `switch-case` atau rentetan `if-else` bertingkat yang memeriksa tipe objek.
-   - Manfaatkan *Strategy Pattern* atau *Factory Pattern* untuk perilaku yang dinamis.
+   - **Golden Rule:** *Favor composition over inheritance*.
+   - Avoid inheritance hierarchies deeper than 2 levels (`Class A -> Class B -> Class C` is the absolute limit).
+   - Use dependency injection and delegation to share behavior, not rigid subclassing.
+4. **Polymorphism:**
+   - Replace complex `switch-case` blocks or nested `if-else` type-checking ladders with polymorphic behavior.
+   - Leverage the *Strategy Pattern* or *Factory Pattern* for dynamic runtime execution.
 
 ---
 
-## 2. Penerapan Prinsip SOLID Secara Ketat
+## 2. Strict Adherence to SOLID Principles
 
-Setiap kelas dan modul wajib mematuhi 5 prinsip SOLID:
+Every class and module must strictly observe all 5 SOLID principles:
 
 ### S – Single Responsibility Principle (SRP)
-- Setiap kelas hanya boleh memiliki **satu alasan untuk berubah**.
-- *Dilarang:* Membuat "God Object" / "God Class" (misal: kelas `UserManager` yang mengelola auth, query DB, mengirim email, dan merender tampilan UI).
-- *Solusi:* Pecah menjadi `AuthService`, `UserRepository`, `EmailNotifier`, dan `UserPresenter`.
+- Every class must have **only one reason to change**.
+- *Forbidden:* "God Objects" or "God Classes" (e.g., a `UserManager` handling authentication, DB queries, sending emails, and rendering UI views).
+- *Solution:* Split into `AuthService`, `UserRepository`, `EmailNotifier`, and `UserPresenter`.
 
 ### O – Open/Closed Principle (OCP)
-- Entitas kode harus **terbuka untuk ekstensi, tetapi tertutup untuk modifikasi**.
-- Menambahkan fitur baru (misal: metode pembayaran baru, format export baru) tidak boleh mengedit kode inti yang sudah berjalan, melainkan menambahkan kelas baru yang mengimplementasikan antarmuka yang sama.
+- Software entities must be **open for extension, but closed for modification**.
+- Adding new features (e.g., a new payment gateway, export format) should not require altering existing core code; introduce a new class implementing the shared interface instead.
 
 ### L – Liskov Substitution Principle (LSP)
-- Subtipe harus dapat menggantikan tipe induknya tanpa merusak fungsionalitas sistem.
-- Jangan melempar exception `NotImplementedException` pada method turunan hanya karena kelas anak tidak membutuhkan fungsi dari kelas induk (tanda pelanggaran ISP & LSP).
+- Subtypes must be substitutable for their base types without breaking application behavior.
+- Never throw `NotImplementedException` in a subclass simply because it does not need a method from the base interface (a clear violation of ISP and LSP).
 
 ### I – Interface Segregation Principle (ISP)
-- Lebih baik membuat banyak antarmuka kecil yang spesifik daripada satu antarmuka gemuk (*fat interface*).
-- Klien tidak boleh dipaksa untuk mengimplementasikan metode yang tidak mereka gunakan.
+- Prefer multiple, client-specific interfaces over a single, bloated (*fat*) interface.
+- Clients must never be forced to depend on methods they do not use.
 
 ### D – Dependency Inversion Principle (DIP)
-- Modul tingkat tinggi tidak boleh bergantung pada modul tingkat rendah; keduanya harus bergantung pada abstraksi.
-- Terapkan **Dependency Injection (DI)**: Jangan melakukan instansiasi objek (`new Service()`) secara langsung di dalam kelas bisnis. Berikan instance melalui constructor injection.
+- High-level modules must not depend on low-level modules; both must depend on abstractions.
+- Apply **Dependency Injection (DI)**: Never instantiate dependencies directly inside business classes (`new Service()`). Inject instances via constructor parameters.
 
 ---
 
-## 3. Standar Kode Reusable (Bisa Digunakan Ulang)
+## 3. Production Code Reusability Standards
 
-Kode yang *reusable* bukan berarti kode yang over-abstracted sampai sulit dibaca. Ikuti pedoman berikut:
+Reusable code does not mean over-abstracted code. Follow these practical rules:
 
-1. **Rule of Three (Aturan Tiga Kali):**
-   - Jangan membuat abstraksi generik sebelum logika tersebut benar-benar dipakai di minimal 2 sampai 3 tempat berbeda. Hindari *premature abstraction*.
+1. **Rule of Three:**
+   - Do not create generic abstractions until logic is duplicated in at least 2 to 3 distinct locations. Avoid premature abstraction.
 2. **Pure Functions & Stateless Utilities:**
-   - Helper dan utilitas harus berupa *pure function* jika memungkinkan: input yang sama selalu menghasilkan output yang sama, tanpa *side effects* (tidak membaca/menulis state global).
+   - Helper utilities should be pure functions whenever possible: identical inputs always yield identical outputs without side effects or reliance on global state.
 3. **Data Transfer Objects (DTO) & Typed Contracts:**
-   - Setiap transfer data antar layer (Controller -> Service -> Repository) harus menggunakan tipe/DTO yang tervalidasi dengan ketat, bukan payload `any`, `dict` liar, atau object tak berstruktur.
-4. **Atomic Components (Untuk Frontend):**
-   - Pecah UI menjadi atom terkecil: Button, Input, Modal, Typography.
-   - Jangan menyatukan logic API call langsung di dalam presentational component. Pisahkan antara *Container/Smart Component* (logic & data) dan *Presentational/Dumb Component* (visual saja).
+   - Data transfer across boundaries (Controller -> Service -> Repository) must use strictly typed schemas or DTOs, never untyped dictionaries, `any`, or unstructured payloads.
+4. **Atomic Components (Frontend):**
+   - Break UI into granular atomic components: Button, Input, Modal, Typography.
+   - Separate *Container/Smart Components* (data fetching & business state) from *Presentational/Dumb Components* (pure visual rendering).
 
 ---
 
-## 4. Design Patterns yang Dianjurkan
+## 4. Recommended Design Patterns
 
-Gunakan pola desain standar industri berikut sesuai konteks masalah:
+Apply industry-standard design patterns based on context:
 
-| Design Pattern | Kapan Digunakan | Contoh Kasus |
+| Design Pattern | When to Use | Typical Example |
 | :--- | :--- | :--- |
-| **Repository Pattern** | Mengabstraksi layer akses data / database dari domain logic | `UserRepositoryInterface` -> `PostgresUserRepository` |
-| **Strategy Pattern** | Logika algoritma/alur bervariasi berdasarkan kondisi runtime | Algoritma diskon, provider payment gateway (Midtrans, Stripe) |
-| **Factory / Builder** | Pembuatan objek kompleks yang memiliki banyak parameter/langkah | Builder query, Factory pembuatan pesan notifikasi |
-| **Adapter Pattern** | Menghubungkan library pihak ketiga agar tidak merusak kode inti | Pembungkus HTTP client pihak ketiga (Axios/Fetch/Guzzle) |
-| **Observer / Event-Driven** | Mengirim sinyal kejadian tanpa kopling langsung (*loose coupling*) | Event `UserRegisteredEvent` ditangkap oleh `SendWelcomeEmailListener` |
+| **Repository Pattern** | Decoupling domain logic from data access/database | `UserRepositoryInterface` -> `PostgresUserRepository` |
+| **Strategy Pattern** | Interchangeable business algorithms at runtime | Discount rules, payment providers (Stripe, PayPal) |
+| **Factory / Builder** | Complex object instantiation with many options | Query builders, multi-channel notification builders |
+| **Adapter Pattern** | Isolating third-party libraries from core code | Wrapping HTTP clients (Axios, Fetch, Requests) |
+| **Observer / Event-Driven** | Decoupled cross-domain signaling | `UserRegisteredEvent` handled by `SendWelcomeEmailListener` |
 
 ---
 
-## 5. Dilarang Keras untuk AI:
+## 5. Strict Prohibitions for AI Agents:
 
-❌ **Menghasilkan file kelas lebih dari 300 baris** tanpa memecahnya menjadi modul-modul terpisah.  
-❌ **Menggunakan mutable global state** (variabel global yang nilainya diubah dari berbagai tempat).  
-❌ **Hardcoded business rules** di dalam presentation/UI layer.  
-❌ **Duplicate code (Copy-Paste coding)** untuk logika validasi, transformasi data, dan query serupa.  
-❌ **Mengabaikan typing**: Dilarang menggunakan `any`, `object`, atau type casting liar untuk membungkam linter/type checker.
+❌ **Files exceeding 300 lines** without modular separation.  
+❌ **Mutable global state** modified across arbitrary code paths.  
+❌ **Hardcoded business rules** placed in presentation/UI layers.  
+❌ **Copy-paste duplication** across validation logic, data transformations, or queries.  
+❌ **Untyped escapes**: Using `any`, `object`, or loose type casting to bypass type checkers.

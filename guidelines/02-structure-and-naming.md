@@ -1,64 +1,68 @@
 # 02. Directory Structure & Naming Conventions Standard
 
-Dokumen ini mengatur struktur direktori dan konvensi penamaan file/folder agar arsitektur proyek tetap bersih, mudah dirawat (*maintainable*), mudah dicari (*discoverable*), dan tidak menghasilkan penumpukan file liar hasil generate AI.
+[English](02-structure-and-naming.md) | [Bahasa Indonesia](id/02-structure-and-naming.md)
 
 ---
 
-## 1. Konvensi Penamaan (Naming Conventions)
+This document establishes predictable directory layouts and naming conventions to ensure the codebase remains clean, maintainable, discoverable, and free of chaotic AI-generated files.
 
-AI wajib mengikuti konvensi baku penamaan berikut secara konsisten tanpa variasi acak:
+---
 
-| Tipe Entitas | Konvensi | Contoh yang Benar | Contoh yang DILARANG |
+## 1. Naming Conventions
+
+AI coding assistants must strictly follow these naming conventions:
+
+| Entity Type | Convention | Correct Example | FORBIDDEN Example |
 | :--- | :--- | :--- | :--- |
-| **Folder / Direktori** | `kebab-case` atau `snake_case` (seragam di seluruh repo) | `user-management/`, `auth-service/` | `UserManagement/`, `authService/`, `User_mgmt/` |
-| **File Kode Biasa** | `kebab-case` | `user-repository.ts`, `auth-controller.py` | `UserRepository.ts`, `user_repo_v2.py` |
-| **File Kelas / Komponen UI** | `PascalCase` (khusus JSX/TSX/Vue) atau `kebab-case` | `UserProfileCard.tsx` atau `user-profile-card.tsx` | `userProfileCard.tsx`, `card2.tsx` |
-| **File Interface / Type** | `kebab-case` + akhiran deskriptif | `user.types.ts`, `auth-contract.interface.ts` | `IUser.ts`, `types.ts` (terlalu ambigu) |
-| **File Unit / Integration Test** | `[nama-file].test.[ext]` atau `[nama-file].spec.[ext]` | `auth-service.test.ts`, `payment_gateway_test.py` | `test.py`, `auth_test2.py` |
-| **Nama Variabel / Fungsi** | `camelCase` / `snake_case` (sesuai bahasa) | `calculateTotalAmount()`, `user_payload` | `calc()`, `temp1`, `data`, `res2` |
-| **Nama Kelas / Interface** | `PascalCase` | `PostgresUserRepository`, `PaymentProcessor` | `user_repo`, `payment_cls` |
-| **Nama Konstanta Global** | `UPPER_SNAKE_CASE` | `MAX_RETRY_ATTEMPTS`, `JWT_SECRET_KEY` | `maxRetry`, `secret` |
+| **Folders / Directories** | `kebab-case` or `snake_case` (consistent repo-wide) | `user-management/`, `auth-service/` | `UserManagement/`, `authService/`, `User_mgmt/` |
+| **Standard Code Files** | `kebab-case` | `user-repository.ts`, `auth-controller.py` | `UserRepository.ts`, `user_repo_v2.py` |
+| **UI Components** | `PascalCase` (for JSX/TSX/Vue) or `kebab-case` | `UserProfileCard.tsx` or `user-profile-card.tsx` | `userProfileCard.tsx`, `card2.tsx` |
+| **Interfaces / Types** | `kebab-case` + descriptive suffix | `user.types.ts`, `auth-contract.interface.ts` | `IUser.ts`, `types.ts` (too ambiguous) |
+| **Test Files** | `[filename].test.[ext]` or `[filename].spec.[ext]` | `auth-service.test.ts`, `payment_gateway_test.py` | `test.py`, `auth_test2.py` |
+| **Variables / Functions** | `camelCase` / `snake_case` (language idiomatic) | `calculateTotalAmount()`, `user_payload` | `calc()`, `temp1`, `data`, `res2` |
+| **Classes / Interfaces** | `PascalCase` | `PostgresUserRepository`, `PaymentProcessor` | `user_repo`, `payment_cls` |
+| **Global Constants** | `UPPER_SNAKE_CASE` | `MAX_RETRY_ATTEMPTS`, `JWT_SECRET_KEY` | `maxRetry`, `secret` |
 
-### ⛔ Aturan Larangan Keras Nama File:
-- **Dilarang keras membuat file dengan embel-embel:** `_v2`, `_new`, `_final`, `_backup`, `_temp`, `_copy`.
-- **Dilarang keras nama file ambigu generic:** `utils.ts`, `helper.js`, `common.py`, `data.json` tanpa prefix domain yang jelas (gunakan `string-formatter.util.ts`, `date-parser.util.ts`, `auth-helper.py`).
-- **Dilarang menaruh file di root directory** secara sembarangan selain file konfigurasi standar (`README.md`, `PRD.md`, `.gitignore`, `package.json`, dll.).
+### ⛔ Strict Prohibitions on Filenames:
+- **Never use versioning or temp suffixes:** `_v2`, `_new`, `_final`, `_backup`, `_temp`, `_copy`.
+- **Never use ambiguous generic names:** `utils.ts`, `helper.js`, `common.py`, `data.json` without clear domain scoping (prefer `string-formatter.util.ts`, `date-parser.util.ts`, `auth-helper.py`).
+- **Never dump random files into the root directory** other than standard project configuration (`README.md`, `PRD.md`, `.gitignore`, `package.json`, etc.).
 
 ---
 
-## 2. Pola Arsitektur Folder yang Dianjurkan
+## 2. Recommended Directory Architecture
 
-Gunakan salah satu dari dua pendekatan terstruktur berikut (sesuai skala proyek):
+Select one of the following architectural patterns according to project scale:
 
-### Pendekatan A: Feature-Based / Domain-Driven (Sangat Disarankan untuk Skala Menengah-Besar)
-Struktur diatur berdasarkan **fitur/domain bisnis**, bukan berdasarkan tipe file teknis semata:
+### Pattern A: Feature-Based / Domain-Driven (Recommended for Medium to Large Systems)
+Organized by **business domain**, rather than technical file types alone:
 
 ```text
 src/
-├── core/                           # Inti sistem (shared cross-domain)
-│   ├── config/                     # Konfigurasi environment & app
-│   ├── database/                   # Migrasi, koneksi DB pool
-│   ├── errors/                     # Custom application errors
+├── core/                           # System core (shared cross-domain)
+│   ├── config/                     # Environment & app configuration
+│   ├── database/                   # Migrations, connection pooling
+│   ├── errors/                     # Custom domain errors
 │   ├── middleware/                 # Global middleware (auth, rate-limit, logger)
-│   └── utils/                      # Utilities murni tanpa state
-├── modules/                        # Fitur domain terisolasi
-│   ├── auth/                       # Domain Auth
-│   │   ├── dto/                    # Data Transfer Objects / schemas
-│   │   ├── entities/               # Model / Entity database
-│   │   ├── repositories/           # Akses query database
-│   │   ├── services/               # Logic bisnis inti
-│   │   ├── controllers/            # Entry point HTTP / gRPC / CLI
-│   │   ├── auth.constants.ts       # Konstanta lokal domain
-│   │   └── tests/                  # Unit & integration test auth
-│   └── billing/                    # Domain Billing
+│   └── utils/                      # Pure, stateless utilities
+├── modules/                        # Isolated domain features
+│   ├── auth/                       # Auth domain
+│   │   ├── dto/                    # Data Transfer Objects / validation schemas
+│   │   ├── entities/               # Database entities / models
+│   │   ├── repositories/           # Database queries
+│   │   ├── services/               # Core business logic
+│   │   ├── controllers/            # HTTP / gRPC / CLI entry points
+│   │   ├── auth.constants.ts       # Domain-local constants
+│   │   └── tests/                  # Auth unit & integration tests
+│   └── billing/                    # Billing domain
 │       ├── dto/
 │       ├── services/
 │       └── repositories/
-└── main.ts                         # Bootstrap entry point aplikasi
+└── main.ts                         # Application bootstrap entry point
 ```
 
-### Pendekatan B: Clean Architecture / Hexagonal (Untuk Backend Kompleks)
-Memisahkan concern menjadi lingkaran domain:
+### Pattern B: Clean Architecture / Hexagonal (For Complex Backends)
+Separates concerns into concentric architectural layers:
 
 ```text
 src/
@@ -79,37 +83,37 @@ src/
     └── serializers/
 ```
 
-### Pendekatan C: Frontend Architecture (Komponen & State)
+### Pattern C: Frontend Component Architecture
 ```text
 src/
-├── assets/                         # Font, icon SVG, gambar statis
-├── components/                     # Atomic, reusable UI components murni
-│   ├── ui/                         # Base design system (Button, Dialog, Input)
+├── assets/                         # Fonts, SVG icons, static media
+├── components/                     # Pure, reusable UI components
+│   ├── ui/                         # Design system primitives (Button, Dialog, Input)
 │   └── feedback/                   # Toast, Skeleton, Spinner
-├── features/                       # Fitur-fitur halaman
+├── features/                       # Page-specific feature modules
 │   └── user-profile/
-│       ├── components/             # Komponen khusus halaman ini
-│       ├── hooks/                  # Custom hooks / business logic
-│       ├── services/               # API calls untuk user profile
-│       ├── types/                  # TypeScript definitions
+│       ├── components/             # Feature-specific components
+│       ├── hooks/                  # Custom hooks / view-models
+│       ├── services/               # Feature-specific API clients
+│       ├── types/                  # Local TypeScript types
 │       └── UserProfilePage.tsx     # View entry point
 ├── layouts/                        # Header, Sidebar, Footer wrappers
-├── hooks/                          # Global reusable hooks
+├── hooks/                          # Reusable global hooks
 ├── stores/                         # Global state management
-└── styles/                         # Design tokens, variables, global CSS
+└── styles/                         # Design tokens, CSS variables, global styling
 ```
 
 ---
 
-## 3. Prinsip Co-Location (Letakkan yang Terkait Berdampingan)
+## 3. Co-Location Principle
 
-- **Test Berdampingan:** Tempatkan file unit test di samping file implementasinya atau di dalam folder `tests/` di modul yang bersangkutan (misal: `user-service.ts` berdampingan dengan `user-service.test.ts`).
-- **Styles & Types:** Komponen frontend yang memiliki style atau tipe data spesifik harus meletakkan file pendukung tersebut di folder yang sama, bukan membuangnya ke folder global antah berantah.
+- **Co-locate Tests:** Place unit tests adjacent to the implementation file or inside a co-located `tests/` directory within the module (e.g., `user-service.ts` next to `user-service.test.ts`).
+- **Co-locate Styles & Types:** Feature-specific styles and types must live within the feature folder, not dumped into global folders.
 
 ---
 
-## 4. Barrel Files (`index.ts` / `__init__.py`) Guidelines
+## 4. Barrel File Guidelines (`index.ts` / `__init__.py`)
 
-- Gunakan barrel file (`index.ts`) hanya di batas modul publik (*public API boundaries*) untuk menyederhanakan import.
-- **Dilarang:** Membuat circular dependency akibat barrel file yang mengimpor satu sama lain secara bertingkat.
-- Pastikan modul mengekspor hanya apa yang dibutuhkan oleh modul luar (*encapsulated module exports*).
+- Use barrel files exclusively at public module boundaries to simplify external imports.
+- **Forbidden:** Creating circular dependencies caused by cross-importing nested barrel files.
+- Ensure modules only expose their intended public API (*encapsulated module exports*).

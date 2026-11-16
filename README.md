@@ -1,5 +1,7 @@
 # 🛡️ Human-Crafted AI Engineering Standard (`anti-ai-slop`)
 
+🌐 **English** | [Bahasa Indonesia](README.id.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-denoyey%2Fanti--ai--slop-blue?logo=github)](https://github.com/denoyey/anti-ai-slop)
 [![Standards: Zero-Slop](https://img.shields.io/badge/Standard-Anti--AI--Slop-success)](guidelines/04-anti-ai-slop-design-system.md)
@@ -40,18 +42,21 @@ Alternatively, copy the relevant configuration files (`.antigravity/`, `.cursorr
 ├── .antigravity/
 │   └── rules/
 │       └── anti-slop.md            # Automated rules for Google Antigravity
-├── guidelines/
+├── guidelines/                     # Core standards in English
 │   ├── 01-oop-and-reusability.md   # Clean OOP, SOLID principles, & reusability
 │   ├── 02-structure-and-naming.md  # Predictable naming conventions & architecture
 │   ├── 03-hardened-security.md     # Defense-in-depth security (OWASP & anti-bypass)
 │   ├── 04-anti-ai-slop-design-system.md # Human-crafted UI design, no generic slop
 │   ├── 05-documentation-and-lifecycle-sync.md # Mandatory docs & README sync rule
-│   └── 06-error-handling-and-testing.md # Zero silent failures & real verification
+│   ├── 06-error-handling-and-testing.md # Zero silent failures & real verification
+│   └── id/                         # Standards in Bahasa Indonesia
 ├── .cursorrules                    # Direct configuration for Cursor IDE
 ├── AGENTS.md                       # Universal agent instruction standard
 ├── CLAUDE.md                       # Dedicated configuration for Claude Code CLI
-├── PRD_GLOBAL.md                   # Global PRD blueprint & anti-hallucination spec
-└── README.md                       # Main project documentation
+├── PRD_GLOBAL.md                   # Global PRD blueprint (English)
+├── PRD_GLOBAL.id.md                # Global PRD blueprint (Bahasa Indonesia)
+├── README.md                       # Main project documentation (English)
+└── README.id.md                    # Main project documentation (Bahasa Indonesia)
 ```
 
 ---

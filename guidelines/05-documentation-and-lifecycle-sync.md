@@ -1,54 +1,58 @@
 # 05. Living Documentation & Project Lifecycle Sync Standard
 
-Dokumen ini menetapkan aturan mutlak: **Kode dan Dokumentasi adalah satu kesatuan yang tidak dapat dipisahkan**. AI coding assistant dilarang keras mengubah kode proyek tanpa menyelaraskan dokumentasi dan file `README.md`.
+[English](05-documentation-and-lifecycle-sync.md) | [Bahasa Indonesia](id/05-documentation-and-lifecycle-sync.md)
 
 ---
 
-## 1. Aturan Wajib Sinkronisasi Dokumentasi (The Sync Rule)
+This document establishes a mandatory rule: **Code and Documentation are an inseparable unit**. AI coding assistants are strictly prohibited from altering project code without synchronizing documentation and the `README.md` file.
 
-Setiap kali terjadi perubahan pada proyek (penambahan fitur, refaktor, perubahan dependensi, perbaikan bug, atau konfigurasi), AI **WAJIB** mengecek dan memperbarui dokumen terkait:
+---
 
-### Matriks Pemicu & Dokumen yang Wajib Diperbarui:
+## 1. The Living Documentation Rule
 
-| Jenis Perubahan Kode | Dokumen yang WAJIB Diperbarui |
+Whenever any change occurs (feature addition, refactoring, dependency updates, bug fixes, or configuration tweaks), the AI agent **MUST** update all corresponding documentation:
+
+### Trigger & Update Matrix:
+
+| Type of Code Change | Mandatory Documentation Updates |
 | :--- | :--- |
-| **Menambah / Mengubah Environment Variable** | 1. File `.env.example`<br>2. Tabel Variabel Lingkungan di `README.md` |
-| **Menambah / Menghapus Dependensi Library** | 1. Instruksi instalasi di `README.md`<br>2. Alasan penambahan di PRD/Changelog |
-| **Membuat Endpoint API Baru / Mengubah Payload** | 1. Spesifikasi API (OpenAPI/Swagger atau `docs/api.md`)<br>2. Bagian contoh penggunaan di `README.md` |
-| **Mengubah Struktur Folder atau Arsitektur** | 1. Pohon direktori di `README.md`<br>2. Dokumen arsitektur terkait |
-| **Menyelesaikan Fitur dari PRD** | 1. Checklist status di `PRD_GLOBAL.md`<br>2. Bagian Feature Matrix di `README.md` |
-| **Memperbaiki Kerentanan Keamanan (Bugfix/Patch)** | 1. Catatan rilis di `CHANGELOG.md` |
+| **New or Changed Environment Variable** | 1. `.env.example`<br>2. Environment Variables table in `README.md` |
+| **New or Removed Library Dependency** | 1. Installation instructions in `README.md`<br>2. Justification in PRD / Changelog |
+| **New API Endpoint or Schema Change** | 1. API documentation (OpenAPI / Swagger or `docs/api.md`)<br>2. Usage examples in `README.md` |
+| **Directory Structure or Architecture Shift** | 1. Repository tree in `README.md`<br>2. Relevant architecture guidelines |
+| **Completed Feature from PRD** | 1. Task checklist in `PRD_GLOBAL.md`<br>2. Feature matrix in `README.md` |
+| **Security Patch or Fix** | 1. Release notes in `CHANGELOG.md` |
 
 ---
 
-## 2. Standar Pembaruan `README.md`
+## 2. Standards for Maintaining `README.md`
 
-File `README.md` adalah etalase utama proyek. Pastikan `README.md` selalu mutakhir (*always up-to-date*) dengan kriteria:
-1. **Langkah Instalasi & Menjalankan:** Harus akurat dan teruji. Jika ada command baru (misal: migrasi database, seeding, generate token), cantumkan urutannya secara eksplisit.
-2. **Prasyarat Sistem (Prerequisites):** Versi Node.js, Python, Go, Docker, atau PostgreSQL yang didukung harus tertera jelas.
-3. **Dokumentasi Variabel Lingkungan:** Setiap variabel pada `.env.example` wajib memiliki penjelasan fungsi dan contoh nilai yang aman di `README.md`.
+`README.md` is the primary storefront of the repository. Keep it perpetually accurate:
+1. **Installation & Running Instructions:** Must be verified and accurate. If new commands are introduced (migrations, seeds, key generation), list them sequentially.
+2. **System Prerequisites:** Explicitly state supported runtimes (Node.js, Python, Go, Docker, PostgreSQL versions).
+3. **Environment Variable Documentation:** Every key in `.env.example` must have an explanation and a safe dummy value in `README.md`.
 
 ---
 
-## 3. Protokol Sebelum Menyatakan Tugas Selesai (Final Verification Protocol)
+## 3. Pre-Completion Documentation Verification Protocol
 
-Sebelum AI coding assistant memberikan respon final atau menyatakan pekerjaan selesai kepada pengguna, AI wajib menjalankan checklist internal ini:
+Before an AI assistant declares a task finished or returns its final response to the user, it must evaluate this internal checklist:
 
 ```markdown
-[ ] Apakah ada file baru atau file yang dipindahkan? -> Update struktur di README.
-[ ] Apakah ada env baru yang dibutuhkan? -> Tambahkan ke .env.example dan README.
-[ ] Apakah ada command setup baru? -> Update panduan cara menjalankan di README.
-[ ] Apakah task di PRD sudah di-centang selesai? -> Update PRD_GLOBAL.md.
-[ ] Apakah dokumentasi API sudah sinkron dengan implementasi kode terbaru?
+[ ] Were new files added or paths moved? -> Update tree in README.
+[ ] Were new environment variables introduced? -> Update .env.example and README.
+[ ] Were new setup commands added? -> Update Quick Start in README.
+[ ] Were PRD items completed? -> Check off items in PRD_GLOBAL.md.
+[ ] Are API docs synchronized with current endpoint implementations?
 ```
 
-Jika salah satu jawaban adalah **BELUM**, AI harus memperbarui dokumentasi terlebih dahulu sebelum mengakhiri turn/tugas.
+If any check is incomplete, the AI assistant must update documentation before concluding its turn.
 
 ---
 
-## 4. Standar Penulisan Riwayat Perubahan (Changelog & Commits)
+## 4. Conventional Commits Standard
 
-Gunakan standar **Conventional Commits** untuk setiap ringkasan perubahan:
+Use the **Conventional Commits** specification for all summaries and commit messages:
 - `feat(auth): add rate limiting and argon2 password hashing`
 - `fix(billing): prevent IDOR vulnerability in invoice download endpoint`
 - `docs(readme): update environment variable table for OAuth setup`
