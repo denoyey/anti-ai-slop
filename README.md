@@ -119,4 +119,4 @@ Gunakan `PRD_GLOBAL.md` sebagai blueprint sebelum memulai fitur baru untuk mence
 
 Proyek ini dilisensikan di bawah lisensi MIT — lihat file [LICENSE](LICENSE) untuk detail lengkap.
 
-Dikelola dan dikembangkan oleh **ASYA** ([@denoyey](https://github.com/denoyey)).
+Dikelola dan dikembangkan oleh **denoyey** ([@denoyey](https://github.com/denoyey)).
